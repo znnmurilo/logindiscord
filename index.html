@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Real com Discord</title>
+    <title>Sistema de Registro - Discord</title>
     <style>
         * {
             margin: 0;
@@ -112,7 +112,7 @@
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 600px;
             width: 100%;
             backdrop-filter: blur(10px);
         }
@@ -188,49 +188,63 @@
             100% { transform: rotate(360deg); }
         }
 
-        .servers-section {
-            margin-top: 30px;
-        }
-
-        .server-card {
+        /* Registration Form */
+        .registration-form {
             background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 4px solid #5865F2;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
         }
 
-        .server-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
         }
 
-        .server-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 15px;
-        }
-
-        .server-name {
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
             font-weight: 600;
             color: #333;
         }
 
-        .roles-section {
-            margin-top: 15px;
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
 
-        .role-tag {
-            display: inline-block;
-            background: #5865F2;
+        .form-group input:focus {
+            outline: none;
+            border-color: #5865F2;
+        }
+
+        .submit-btn {
+            background: #28a745;
             color: white;
-            padding: 5px 10px;
-            border-radius: 15px;
-            margin: 2px;
-            font-size: 12px;
-            font-weight: 500;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .error-message {
@@ -251,6 +265,25 @@
             border: 1px solid #c3e6cb;
         }
 
+        .info-card {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .info-card h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #424242;
+            margin-bottom: 8px;
+        }
+
         @media (max-width: 480px) {
             .container, .dashboard {
                 padding: 30px 20px;
@@ -266,8 +299,8 @@
     <!-- Login Page -->
     <div class="container" id="loginContainer">
         <div class="logo">🎮</div>
-        <h1>Login Real com Discord</h1>
-        <p class="subtitle">Veja seus cargos em servidores específicos</p>
+        <h1>Sistema de Registro</h1>
+        <p class="subtitle">Faça login com Discord para se registrar</p>
         
         <button class="discord-btn" onclick="loginWithDiscord()">
             <svg class="discord-icon" viewBox="0 0 24 24" fill="currentColor">
@@ -284,15 +317,15 @@
         <div class="features">
             <div class="feature">
                 <span class="feature-icon">✅</span>
-                <span>Login real com Discord OAuth2</span>
+                <span>Login seguro com Discord</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">👥</span>
-                <span>Veja seus cargos em servidores</span>
+                <span class="feature-icon">📝</span>
+                <span>Registro de nome e passaporte</span>
             </div>
             <div class="feature">
-                <span class="feature-icon">🔒</span>
-                <span>Dados seguros e protegidos</span>
+                <span class="feature-icon">🤖</span>
+                <span>Bot adiciona ao servidor automaticamente</span>
             </div>
         </div>
 
@@ -301,11 +334,11 @@
         </div>
     </div>
 
-    <!-- Dashboard -->
+    <!-- Registration Dashboard -->
     <div class="dashboard" id="dashboard">
         <div class="welcome-message">
-            <h2>🎉 Bem-vindo de volta!</h2>
-            <p>Você está logado com sucesso via Discord</p>
+            <h2>🎉 Bem-vindo!</h2>
+            <p>Complete seu registro para entrar no servidor</p>
         </div>
 
         <div class="user-info" id="userInfo">
@@ -316,17 +349,47 @@
             </div>
         </div>
 
-        <div class="servers-section" id="serversSection">
-            <h3>🏠 Seus Servidores</h3>
-            <p style="margin: 20px 0; color: #666;">
-                Aqui estão os servidores onde você tem cargos:
+        <!-- Registration Form -->
+        <div class="registration-form" id="registrationForm">
+            <h3>📝 Formulário de Registro</h3>
+            <p style="margin-bottom: 20px; color: #666;">
+                Preencha seus dados para ser adicionado ao servidor:
             </p>
-            <div id="serversList">
-                <div class="loading">
-                    <div class="spinner"></div>
-                    <p>Carregando servidores...</p>
-                </div>
+
+            <div class="form-group">agora com essa base, eu quero que voce faça o usuario fazer login no site com o discord, e quando ele fizer login informando nome e passaporte, quando a pessoa logar, vai aparecer a tela de registro pra por essas informaceos, quando colocar, o bot vai coloar a pessoa nesse servidor @https://discord.gg/BQGsv3gV  e vai dar esse cargo 1401694295916023818 e vai alterar o apelodio da pessoa para [REC] *NOME INFORMADO* | *PASSAPORTE INFORMATO*
+                <label for="userNameInput">Nome Completo:</label>
+                <input type="text" id="userNameInput" placeholder="Digite seu nome completo" required>
             </div>
+
+            <div class="form-group">
+                <label for="passportInput">Passaporte:</label>
+                <input type="text" id="passportInput" placeholder="Digite seu passaporte" required>
+            </div>
+
+            <button class="submit-btn" onclick="submitRegistration()" id="submitBtn">
+                📋 Completar Registro
+            </button>
+
+            <div class="loading" id="formLoading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processando registro...</p>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage" style="display: none;">
+            <h4>✅ Registro Concluído!</h4>
+            <p>Você foi adicionado ao servidor com sucesso!</p>
+            <p><strong>Apelido definido:</strong> [REC] <span id="displayName"></span> | <span id="displayPassport"></span></p>
+            <p><strong>Cargo atribuído:</strong> <span id="displayRole"></span></p>
+        </div>
+
+        <!-- Info Card -->
+        <div class="info-card">
+            <h4>ℹ️ Informações do Registro</h4>
+            <p><strong>Servidor:</strong> <a href="https://discord.gg/BQGsv3gV" target="_blank">Discord.gg/BQGsv3gV</a></p>
+            <p><strong>Cargo:</strong> ID: 1401694295916023818</p>
+            <p><strong>Formato do apelido:</strong> [REC] NOME | PASSAPORTE</p>
         </div>
 
         <div style="text-align: center; margin-top: 30px;">
@@ -336,25 +399,30 @@
 
     <script>
         // ⚠️ CONFIGURAÇÃO OBRIGATÓRIA - SUBSTITUA ESTAS VALORES
-        const DISCORD_CLIENT_ID = '1401691803349946609'; // Substitua pelo seu Client ID
-        const DISCORD_CLIENT_SECRET = 'LdX5AAQ8gpQsFDr6Zpn5SMf0vcQbYkqk'; // Substitua pelo seu Client Secret
+        const DISCORD_CLIENT_ID = '1401691803349946609';
+        const DISCORD_CLIENT_SECRET = 'LdX5AAQ8gpQsFDr6Zpn5SMf0vcQbYkqk';
         const REDIRECT_URI = window.location.origin + window.location.pathname;
         const DISCORD_API_URL = 'https://discord.com/api/v10';
 
-        // Servidores específicos onde você quer ver cargos (IDs dos servidores)
-        const TARGET_SERVERS = [
-            // Adicione os IDs dos servidores aqui
-            // Exemplo: '123456789012345678'
-        ];
+        // Configurações do servidor e bot
+        const TARGET_GUILD_ID = 'BQGsv3gV'; // ID do servidor
+        const TARGET_ROLE_ID = '1401694295916023818'; // ID do cargo
+        const BOT_TOKEN = 'SEU_BOT_TOKEN_AQUI'; // Token do bot (você precisa configurar)
 
         // Verificar se o usuário já está logado
         function checkLoginStatus() {
             const token = localStorage.getItem('discord_token');
             const userData = localStorage.getItem('discord_user');
+            const registrationData = localStorage.getItem('registration_data');
             
             if (token && userData) {
-                showDashboard(JSON.parse(userData));
-                loadUserServers(token);
+                const user = JSON.parse(userData);
+                showDashboard(user);
+                
+                // Se já tem registro, mostrar sucesso
+                if (registrationData) {
+                    showSuccessMessage(JSON.parse(registrationData));
+                }
             }
         }
 
@@ -367,7 +435,7 @@
             loginBtn.style.display = 'none';
 
             // URL de autorização do Discord
-            const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=identify%20email%20guilds%20guilds.members.read`;
+            const authUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=code&scope=identify%20email`;
             
             // Redirecionar para o Discord
             window.location.href = authUrl;
@@ -425,120 +493,6 @@
             }
         }
 
-        // Função para obter servidores do usuário
-        async function getUserServers(token) {
-            try {
-                const response = await fetch(`${DISCORD_API_URL}/users/@me/guilds`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao obter servidores');
-                }
-
-                const servers = await response.json();
-                return servers;
-            } catch (error) {
-                console.error('Erro ao obter servidores:', error);
-                showError('Erro ao obter servidores.');
-                return [];
-            }
-        }
-
-        // Função para obter cargos do usuário em um servidor específico
-        async function getUserRoles(token, guildId) {
-            try {
-                const response = await fetch(`${DISCORD_API_URL}/users/@me/guilds/${guildId}/member`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                if (!response.ok) {
-                    return null; // Usuário não é membro ou não tem permissão
-                }
-
-                const memberData = await response.json();
-                return memberData.roles || [];
-            } catch (error) {
-                console.error('Erro ao obter cargos:', error);
-                return null;
-            }
-        }
-
-        // Função para obter informações do servidor
-        async function getGuildInfo(guildId) {
-            try {
-                const response = await fetch(`${DISCORD_API_URL}/guilds/${guildId}`, {
-                    headers: {
-                        Authorization: `Bot SEU_BOT_TOKEN_AQUI`, // Opcional: para mais detalhes
-                    },
-                });
-
-                if (!response.ok) {
-                    return null;
-                }
-
-                return await response.json();
-            } catch (error) {
-                console.error('Erro ao obter informações do servidor:', error);
-                return null;
-            }
-        }
-
-        // Função para carregar servidores do usuário
-        async function loadUserServers(token) {
-            const serversList = document.getElementById('serversList');
-            serversList.innerHTML = '<div class="loading"><div class="spinner"></div><p>Carregando servidores...</p></div>';
-
-            try {
-                const servers = await getUserServers(token);
-                
-                if (servers.length === 0) {
-                    serversList.innerHTML = '<p style="color: #666; text-align: center;">Nenhum servidor encontrado.</p>';
-                    return;
-                }
-
-                let serversHTML = '';
-                
-                for (const server of servers) {
-                    // Verificar se é um servidor alvo ou mostrar todos
-                    const isTargetServer = TARGET_SERVERS.length === 0 || TARGET_SERVERS.includes(server.id);
-                    
-                    if (isTargetServer) {
-                        const roles = await getUserRoles(token, server.id);
-                        const serverInfo = await getGuildInfo(server.id);
-                        
-                        serversHTML += `
-                            <div class="server-card">
-                                <div class="server-header">
-                                    <img class="server-icon" src="${server.icon ? `https://cdn.discordapp.com/icons/${server.id}/${server.icon}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png'}" alt="${server.name}">
-                                    <div>
-                                        <div class="server-name">${server.name}</div>
-                                        <small style="color: #666;">ID: ${server.id}</small>
-                                    </div>
-                                </div>
-                                ${roles ? `
-                                    <div class="roles-section">
-                                        <strong>Cargos:</strong><br>
-                                        ${roles.map(roleId => `<span class="role-tag">${roleId}</span>`).join('')}
-                                    </div>
-                                ` : '<p style="color: #666; font-size: 14px;">Não foi possível obter cargos</p>'}
-                            </div>
-                        `;
-                    }
-                }
-
-                serversList.innerHTML = serversHTML || '<p style="color: #666; text-align: center;">Nenhum servidor relevante encontrado.</p>';
-                
-            } catch (error) {
-                console.error('Erro ao carregar servidores:', error);
-                serversList.innerHTML = '<p style="color: #dc3545; text-align: center;">Erro ao carregar servidores.</p>';
-            }
-        }
-
         // Função para mostrar o dashboard
         function showDashboard(userData) {
             document.getElementById('loginContainer').style.display = 'none';
@@ -550,13 +504,99 @@
             document.getElementById('userAvatar').src = userData.avatar ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png` : 'https://cdn.discordapp.com/embed/avatars/0.png';
         }
 
+        // Função para submeter o registro
+        async function submitRegistration() {
+            const userName = document.getElementById('userNameInput').value.trim();
+            const passport = document.getElementById('passportInput').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const formLoading = document.getElementById('formLoading');
+
+            // Validação
+            if (!userName || !passport) {
+                showError('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            // Desabilitar botão e mostrar loading
+            submitBtn.disabled = true;
+            formLoading.style.display = 'block';
+
+            try {
+                // Processar registro real com o backend
+                const result = await processRegistration(userName, passport);
+                
+                // Salvar dados do registro
+                const registrationData = { userName, passport };
+                localStorage.setItem('registration_data', JSON.stringify(registrationData));
+                
+                // Mostrar mensagem de sucesso
+                showSuccessMessage(registrationData);
+                
+            } catch (error) {
+                console.error('Erro no registro:', error);
+                showError('Erro ao processar registro. Tente novamente.');
+            } finally {
+                submitBtn.disabled = false;
+                formLoading.style.display = 'none';
+            }
+        }
+
+        // Função para processar o registro real
+        async function processRegistration(userName, passport) {
+            const token = localStorage.getItem('discord_token');
+            const userData = JSON.parse(localStorage.getItem('discord_user'));
+            
+            if (!token || !userData) {
+                throw new Error('Usuário não autenticado');
+            }
+
+            // Chamada para o backend
+            const response = await fetch('http://localhost:3001/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    discordId: userData.id,
+                    userName: userName,
+                    passport: passport,
+                    accessToken: token
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Erro no servidor');
+            }
+
+            const result = await response.json();
+            return result;
+        }
+
+        // Função para mostrar mensagem de sucesso
+        function showSuccessMessage(registrationData) {
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            
+            document.getElementById('displayName').textContent = registrationData.userName;
+            document.getElementById('displayPassport').textContent = registrationData.passport;
+            document.getElementById('displayRole').textContent = `ID: ${TARGET_ROLE_ID}`;
+        }
+
         // Função para fazer logout
         function logout() {
             localStorage.removeItem('discord_token');
             localStorage.removeItem('discord_user');
+            localStorage.removeItem('registration_data');
             
             document.getElementById('dashboard').style.display = 'none';
             document.getElementById('loginContainer').style.display = 'block';
+            
+            // Resetar formulário
+            document.getElementById('userNameInput').value = '';
+            document.getElementById('passportInput').value = '';
+            document.getElementById('registrationForm').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
             
             // Resetar botão de login
             document.getElementById('loading').style.display = 'none';
@@ -598,7 +638,6 @@
                             localStorage.setItem('discord_token', token);
                             localStorage.setItem('discord_user', JSON.stringify(userData));
                             showDashboard(userData);
-                            loadUserServers(token);
                             
                             // Limpar URL
                             window.history.replaceState({}, document.title, window.location.pathname);
